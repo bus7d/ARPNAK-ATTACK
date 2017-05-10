@@ -1,7 +1,7 @@
 ARPNAK
 ======
 
-DHCP DoS Bandwith for me!
+DHCP DoS and Local DDoS Bandwith for me!
 
 This attack make the victim(s) flood the DHCP server with DECLINE DHCP packet causing a DoS for each new host on the local network.
 That's seems to be really efficient!
